@@ -20,7 +20,7 @@
         "json",
         "jest"
     ],
-    "ignorePatterns": ["./.commitlintrc.json"],
+    "ignorePatterns": ["./.commitlintrc.json", "pg-main"],
     "rules": {
         "security/detect-object-injection": "off",
         "indent": [

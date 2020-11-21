@@ -1,0 +1,16 @@
+{
+    "name": "postgres",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "dev:stopdb": "docker stop /finance-tracker-db && docker container rm /finance-tracker-db",
+        "dev:initdb": "docker run --name=finance-tracker-db -p=5432:5432 -e POSTGRES_PASSWORD=postgres -d postgres:12-alpine",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Molchan Sergiy",
+    "license": "MIT",
+    "dependencies": {
+        "pg": "^8.5.1"
+    }
+}

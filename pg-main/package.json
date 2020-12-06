@@ -6,6 +6,7 @@
     "scripts": {
         "dev:stopdb": "docker stop /finance-tracker-db && docker container rm /finance-tracker-db",
         "dev:initdb": "docker run --name=finance-tracker-db -p=5432:5432 -e POSTGRES_PASSWORD=postgres -d postgres:12-alpine",
+        "dev:seeds": "node ./index.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "Molchan Sergiy",

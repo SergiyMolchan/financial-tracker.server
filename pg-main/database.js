@@ -9,4 +9,4 @@ const pool = new Pool({
 	port: pg_port,
 });
 
-module.exports = pool.query;
+module.exports = pool;

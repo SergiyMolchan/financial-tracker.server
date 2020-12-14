@@ -2,17 +2,27 @@
     "env": {
         "browser": true,
         "commonjs": true,
-        "es2021": true
+        "es6": true,
+        "node": true,
+        "jest/globals": true
     },
     "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:security/recommended",
-        "plugin:json/recommended"
+        "plugin:jest/recommended"
     ],
-    "parser": "@typescript-eslint/parser",
+    "globals": {
+        "__dirname": true,
+        "__filename": true,
+        "__root": true,
+        "process": true,
+        "infoLog": true,
+        "errorLog": true,
+        "config": true
+    },
     "parserOptions": {
-        "ecmaVersion": 2015
+        "ecmaVersion": 2018
     },
     "plugins": [
         "@typescript-eslint",
@@ -22,6 +32,9 @@
     ],
     "ignorePatterns": ["./.commitlintrc.json", "pg-main"],
     "rules": {
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/ban-ts-comment": "off",
+        "@typescript-eslint/ban-ts-ignore": "off",
         "security/detect-object-injection": "off",
         "indent": [
             "error",

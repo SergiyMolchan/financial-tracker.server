@@ -1,9 +1,13 @@
 import { Response } from 'express';
 
-// rebuild error obj
-export default (res: Response, error: any): void => {
-	res.status(500).json({
+interface errorInterface {
+	status: number,
+	message: string
+}
+
+export default (res: Response, { status, message }: errorInterface): void => {
+	res.status(status).json({
 		success: false,
-		message: error.message ? error.message : error
+		message: message
 	});
 };

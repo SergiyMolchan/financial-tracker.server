@@ -10,4 +10,8 @@ const database = {
 	pg_port: process.env.PG_PORT || 5432
 };
 
-export { server, database };
+const keys = {
+	saltRounds: process.env.SALT_ROUNDS || 7,
+};
+
+export { server, database, keys };

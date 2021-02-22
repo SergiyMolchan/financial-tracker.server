@@ -1,19 +1,15 @@
-import express from 'express';
+import fastify from 'fastify';
 import { server as serverConf } from './config';
 
-const app = express();
 const port = serverConf.port;
+const app = fastify({logger: true});
 
-const start = (): void => {
+(async (): Promise<void> => {
 	try {
-		app.listen(port, () => {
-			console.log(`Server listen port: ${port}`);
-		});
+		await app.listen(port)
 	} catch (error) {
 		console.error(error);
 		process.exit(1);
 	}
-};
-
-start();
+})();
 

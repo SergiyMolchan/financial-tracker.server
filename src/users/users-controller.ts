@@ -1,24 +1,24 @@
 import { newUserInterface, userInterface } from './users-interface';
-import { Request, Response } from 'express';
 import errorHandler from '../helpers/error-handler';
 import { createUser } from './users-model';
+import {FastifyReply, FastifyRequest} from "fastify";
 
 class UsersController {
-	async registration(req: Request, res: Response) {
+	async registration(req: FastifyRequest, reply: FastifyReply) {
 		const { login, password, confirmPassword, email }: newUserInterface = req.body;
 		try {
 
 		} catch (e) {
-			errorHandler(res, e);
+			errorHandler(reply, e);
 		}
 	}
 
-	async authorization(req: Request, res: Response) {
+	async authorization(req: FastifyRequest, reply: FastifyReply) {
 		const { login, password } = req.body;
 		try {
 
 		} catch (e) {
-			errorHandler(res, e);
+			errorHandler(reply, e);
 		}
 	}
 }

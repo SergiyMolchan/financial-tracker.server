@@ -1,13 +1,15 @@
-import { Response } from 'express';
+import {FastifyReply} from "fastify";
 
 interface errorInterface {
 	status: number,
 	message: string
 }
 
-export default (res: Response, { status, message }: errorInterface): void => {
-	res.status(status).json({
-		success: false,
-		message: message
-	});
+export default (reply: FastifyReply, { status, message }: errorInterface): void => {
+	reply
+		.code(status)
+		.send({
+			success: false,
+			message: message
+		});
 };

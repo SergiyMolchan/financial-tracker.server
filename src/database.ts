@@ -11,8 +11,8 @@ const pool = new Pool({
 	port: pg_port,
 	max: 20
 });
-
-const query = async (query: string, params?: any[]): Promise<QueryArrayResult> => {
+// todo: add semaphore
+async function query(query: string, params?: any[]): Promise<QueryArrayResult> {
 	const client = await pool.connect();
 	try {
 		return await client.query(query, params);

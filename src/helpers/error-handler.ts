@@ -1,15 +1,17 @@
-import {FastifyReply} from "fastify";
+import { FastifyReply } from "fastify";
 
 interface errorInterface {
 	status: number,
 	message: string
 }
 
-export default (reply: FastifyReply, { status, message }: errorInterface): void => {
+function errorHandler(reply: FastifyReply, { status, message }: errorInterface): void {
 	reply
 		.code(status)
 		.send({
 			success: false,
 			message: message
 		});
-};
+}
+
+export {errorHandler}

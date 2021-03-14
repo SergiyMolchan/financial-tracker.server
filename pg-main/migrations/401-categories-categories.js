@@ -1,13 +1,14 @@
 const pool = require('../database');
 
-async function initTableUsers() {
+async function initTable() {
 	const client = await pool.connect();
 	try {
+		// todo: set Foreign keys
 		await client.query(
-			`CREATE TABLE IF NOT EXISTS users.users (
+			`CREATE TABLE IF NOT EXISTS categories.categories (
 				id SERIAL PRIMARY KEY,
-				login VARCHAR(128) UNIQUE,
-				password TEXT
+				type_id INT,
+				name VARCHAR(128) NOT NULL
 			)`
 		);
 	} catch (e) {
@@ -17,4 +18,4 @@ async function initTableUsers() {
 	}
 }
 
-module.exports = initTableUsers;
+module.exports = initTable;

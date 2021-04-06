@@ -1,15 +1,17 @@
 import fastify from 'fastify';
-import { server as serverConf } from './config';
+import { registrationRoute } from './users';
+import Ajv from 'ajv';
+import { FastifyRouteSchemaDef } from 'fastify/types/schema';
+import { userValidator } from './users';
 
-const port = serverConf.port;
 const app = fastify({ logger: true });
+const ajv = new Ajv();
+userValidator.confirmPassword(ajv);
 
-(async (): Promise<void> => {
-	try {
-		await app.listen(port);
-	} catch (error) {
-		console.error(error);
-		process.exit(1);
-	}
-})();
+app.setValidatorCompiler(({ schema }: FastifyRouteSchemaDef): any => ajv.compile(schema));
+app.setSchemaErrorFormatter(errors => {
+	return new Error(JSON.stringify({ errors: errors.map(error => error.message) }));
+});
+app.route(registrationRoute);
 
+export default app;

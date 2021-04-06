@@ -3,14 +3,14 @@ interface userInterface {
     login: string,
     password: string,
     settings?: string | null,
-    email?: string | null
+    // email?: string | null
 }
 
 interface newUserInterface {
     login: string,
     password: string,
     confirmPassword: string,
-    email?: string
+    // email?: string
 }
 
 export { userInterface, newUserInterface };

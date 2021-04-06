@@ -5,16 +5,9 @@ async function initTable() {
     try {
         // todo: set Foreign keys
         await client.query(
-            `CREATE TABLE IF NOT EXISTS financial_operations.operations (
+            `CREATE TABLE IF NOT EXISTS financial_operations.currencies (
 			    id SERIAL PRIMARY KEY,
-			    category_id INT,
-			    type_id INT,
-			    group_id INT,
-			    user_id INT,
-			    currency_id INT,
-			    sum INT,
-			    description VARCHAR(256),
-			    date_time DATE DEFAULT now()
+				name VARCHAR(32)
 			)`
         );
     } catch (e) {

@@ -4,6 +4,8 @@ const initTableUsersGroups = require('./migrations/202-users-user_groups');
 const initEnumsTypes = require('./migrations/301-enums-types');
 const initTableCategories = require('./migrations/401-categories-categories');
 const initTableCategoriesGroups = require('./migrations/402-categories-categories_groups');
+const initTableFinancialOperations = require('./migrations/501-financial_operations-operations')
+const initTableFinancialOperationsCurrencies = require('./migrations/502-financial_operations-currencies')
 const initGroups = require('./migrations/601-groups-groups');
 
 // todo: create foreign key for all tables
@@ -18,6 +20,8 @@ async function init() {
 		await initGroups();
 		await initTableUsersGroups();
 		await initTableCategoriesGroups();
+		await initTableFinancialOperations();
+		await initTableFinancialOperationsCurrencies();
 	} catch (e) {
 		throw new Error(e);
 	}

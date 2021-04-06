@@ -21,11 +21,13 @@
     },
     "homepage": "https://github.com/SergiyMolchan/financial-tracker.server#readme",
     "dependencies": {
+        "@types/ajv": "^1.0.0",
         "@types/bcrypt": "^3.0.0",
         "@types/bcryptjs": "^2.4.2",
         "@types/jest": "^26.0.15",
         "@types/node": "^14.14.9",
         "@types/pg": "^7.14.7",
+        "ajv": "^8.0.1",
         "bcryptjs": "^2.4.3",
         "conventional-changelog-conventionalcommits": "^4.5.0",
         "eslint-plugin-import": "^2.22.1",

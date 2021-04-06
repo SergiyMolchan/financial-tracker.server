@@ -1,17 +1,20 @@
-import { FastifyReply } from "fastify";
+import { FastifyReply } from 'fastify';
 
 interface errorInterface {
 	status: number,
 	message: string
 }
 
-function errorHandler(reply: FastifyReply, { status, message }: errorInterface): void {
+function errorHandler(reply: FastifyReply, error: string): void {
+	console.log(error);
+	const { status, message }: errorInterface = JSON.parse(error);
 	reply
 		.code(status)
-		.send({
+		.header('Content-Type', 'application/json; charset=utf-8')
+		.send(JSON.stringify({
 			success: false,
 			message: message
-		});
+		}));
 }
 
-export {errorHandler}
+export { errorHandler };

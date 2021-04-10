@@ -19,4 +19,8 @@ const keys = {
 	saltRounds: process.env.SALT_ROUNDS || 7,
 };
 
-export { server, database, keys, redisOpts };
+const cookie = {
+	secret: 'cookie' || 'cookie'
+};
+
+export { server, database, keys, redisOpts, cookie };

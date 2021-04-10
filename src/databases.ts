@@ -31,5 +31,9 @@ const cache = redis.createClient({
 	port: redis_port
 });
 
+cache.on('error', function (error) {
+	console.error(error);
+	process.exit(1);
+});
 
 export { maindb, cache };

@@ -3,6 +3,8 @@ import { encryptPassword, checkPassword } from './helpers/encrypt-password';
 import { errorHandler } from '../helpers/error-handler';
 import { createUser, getUserByLogin } from './users-model';
 import { FastifyReply, FastifyRequest } from 'fastify';
+import { v4 as uuid } from 'uuid';
+import { cache } from '../databases';
 
 async function registration(req: FastifyRequest, reply: FastifyReply): Promise<void> {
 	// @ts-ignore
@@ -30,6 +32,7 @@ async function registration(req: FastifyRequest, reply: FastifyReply): Promise<v
 	}
 }
 
+// todo: create multiple strategies authorization
 async function authorization(req: FastifyRequest, reply: FastifyReply): Promise<void> {
 	const authorizationErrorMessage: string = JSON.stringify({
 		status: 404,
@@ -46,8 +49,9 @@ async function authorization(req: FastifyRequest, reply: FastifyReply): Promise<
 		if (!await checkPassword(password, candidate.password)) throw authorizationErrorMessage;
 
 		// todo: cookie session authorization. Use Redis for saved info of session
-
+		const sessionId: string = await createSession(candidate.id, 10);
 		reply
+			.setCookie('session', sessionId)
 			.code(200)
 			.header('Content-Type', 'application/json; charset=utf-8')
 			.send(JSON.stringify({
@@ -61,3 +65,14 @@ async function authorization(req: FastifyRequest, reply: FastifyReply): Promise<
 }
 
 export { registration, authorization };
+
+async function createSession(userId: number, expire: number): Promise<string> {
+	const sessionId: string = uuid();
+	await new Promise((resolve, reject) => {
+		cache.set(sessionId, String(userId), 'EX', expire, (err, res): void => {
+			if (err) reject(err);
+			resolve(res);
+		});
+	});
+	return sessionId;
+}

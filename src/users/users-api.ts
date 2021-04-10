@@ -1,4 +1,4 @@
-import { registration } from './users-controller';
+import { registration, authorization } from './users-controller';
 import { RouteOptions } from 'fastify';
 
 // const response = {
@@ -49,4 +49,33 @@ const registrationRoute: RouteOptions = {
 	handler: registration
 };
 
-export { registrationRoute };
+const authorizationRoute: RouteOptions = {
+	method: 'POST',
+	url: '/user/authorization',
+	schema: {
+		body: {
+			type: 'object',
+			required: ['login', 'password'],
+			properties: {
+				login: {
+					type: 'string',
+					maxLength: 128,
+					minLength: 5,
+					// errorMessage: {}
+				},
+				password: {
+					type: 'string',
+					maxLength: 128,
+					minLength: 5,
+				},
+			},
+		},
+		// response: {
+		// 	201: response,
+		// 	409: response
+		// }
+	},
+	handler: authorization
+};
+
+export { registrationRoute, authorizationRoute };

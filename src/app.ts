@@ -1,6 +1,6 @@
 import fastify from 'fastify';
-import { registrationRoute } from './users';
 import Ajv from 'ajv';
+import { userRoutes } from './users';
 import { FastifyRouteSchemaDef } from 'fastify/types/schema';
 import { userValidator } from './users';
 
@@ -12,6 +12,7 @@ app.setValidatorCompiler(({ schema }: FastifyRouteSchemaDef): any => ajv.compile
 app.setSchemaErrorFormatter(errors => {
 	return new Error(JSON.stringify({ errors: errors.map(error => error.message) }));
 });
-app.route(registrationRoute);
+app.route(userRoutes.registrationRoute);
+app.route(userRoutes.authorizationRoute);
 
 export default app;

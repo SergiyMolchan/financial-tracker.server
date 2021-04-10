@@ -7,6 +7,7 @@ const pool = new Pool({
 	database: pg_database,
 	password: pg_password,
 	port: pg_port,
+	max: 20
 });
 
 module.exports = pool;

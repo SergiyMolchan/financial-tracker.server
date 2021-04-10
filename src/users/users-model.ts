@@ -1,6 +1,7 @@
-import { query } from '../database';
+import { maindb } from '../databases';
 import { userInterface } from './users-interface';
 import { QueryArrayResult } from 'pg';
+const { query } = maindb;
 
 async function createUser(login: string, password: string): Promise<QueryArrayResult<any[]>> {
 	return await query('INSERT INTO users.users (login, password) VALUES ($1::varchar(128), $2::text)', [login, password]);

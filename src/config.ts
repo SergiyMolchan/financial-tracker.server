@@ -10,8 +10,13 @@ const database = {
 	pg_port: process.env.PG_PORT || 5432
 };
 
+const redisOpts = {
+	redis_host: process.env.REDIS_HOST || '127.0.0.1',
+	redis_port: Number(process.env.REDIS_PORT) || 6379
+};
+
 const keys = {
 	saltRounds: process.env.SALT_ROUNDS || 7,
 };
 
-export { server, database, keys };
+export { server, database, keys, redisOpts };

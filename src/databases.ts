@@ -1,5 +1,6 @@
 import { Pool, QueryArrayResult } from 'pg';
-import { database } from './config';
+import redis from 'redis';
+import { database, redisOpts } from './config';
 const { pg_database, pg_host, pg_password, pg_port, pg_user } = database;
 
 const pool = new Pool({
@@ -21,6 +22,14 @@ async function query(query: string, params?: any[]): Promise<QueryArrayResult> {
 	}  finally {
 		client.release();
 	}
-};
+}
 
-export { pool, query };
+const maindb = { pool, query };
+const { redis_port, redis_host } = redisOpts;
+const cache = redis.createClient({
+	host: redis_host,
+	port: redis_port
+});
+
+
+export { maindb, cache };

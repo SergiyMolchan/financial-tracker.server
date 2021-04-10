@@ -4,8 +4,10 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "dev:stopdb": "docker stop /finance-tracker-db && docker container rm /finance-tracker-db",
-        "dev:initdb": "docker run --name=finance-tracker-db -p=5432:5432 -e POSTGRES_PASSWORD=postgres -d postgres:12-alpine",
+        "dev:stopdb": "docker-compose --file ../development/docker-compose.yml stop",
+        "dev:rmdb": "docker-compose --file ../development/docker-compose.yml rm -f",
+        "dev:killdb": "npm run dev:stopdb && npm run dev:rmdb",
+        "dev:initdb": "docker-compose --file ../development/docker-compose.yml up",
         "dev:seeds": "node ./index.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },

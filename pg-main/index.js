@@ -7,7 +7,7 @@ const initTableCategoriesGroups = require('./migrations/402-categories-categorie
 const initTableFinancialOperations = require('./migrations/501-financial_operations-operations')
 const initTableFinancialOperationsCurrencies = require('./migrations/502-financial_operations-currencies')
 const initGroups = require('./migrations/601-groups-groups');
-
+const initGroupsPermissions = require('./migrations/602-groups-permissions');
 // todo: create foreign key for all tables
 // todo: create indexes for columns
 
@@ -22,6 +22,7 @@ async function init() {
 		await initTableCategoriesGroups();
 		await initTableFinancialOperations();
 		await initTableFinancialOperationsCurrencies();
+		await initGroupsPermissions();
 	} catch (e) {
 		throw new Error(e);
 	}

@@ -5,6 +5,7 @@ interface errorInterface {
 	message: string
 }
 
+// todo: remove json deserialization for optimization
 function errorHandler(reply: FastifyReply, error: string): void {
 	console.log(error);
 	const { status, message }: errorInterface = JSON.parse(error);

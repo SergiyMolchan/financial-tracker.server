@@ -1,11 +1,11 @@
-import fastify from 'fastify';
+import fastify, { DoneFuncWithErrOrRes, FastifyReply, FastifyRequest } from 'fastify';
 import fastifyCookie, { FastifyCookieOptions } from 'fastify-cookie';
-import fastifyAuth from 'fastify-auth';
 import Ajv from 'ajv';
 import { userRoutes } from './users';
 import { FastifyRouteSchemaDef } from 'fastify/types/schema';
 import { userValidator } from './users';
 import { cookie } from './config';
+import { protectRoute } from './helpers/protect-route';
 
 const app = fastify({ logger: true });
 // app.register(fastifyAuth);
@@ -25,5 +25,16 @@ app.setSchemaErrorFormatter(errors => {
 // todo: set preHandler for protected routes
 app.route(userRoutes.registrationRoute);
 app.route(userRoutes.authorizationRoute);
+app.route({
+	method: 'POST',
+	url: '/test',
+	preHandler: async (request: FastifyRequest, reply: FastifyReply, done: DoneFuncWithErrOrRes): Promise<void> => {
+		await protectRoute(request, reply);
+		done();
+	},
+	handler: (request: FastifyRequest, reply: FastifyReply) => {
+		reply.code(200).send();
+	}
+});
 
 export default app;

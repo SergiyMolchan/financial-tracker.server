@@ -23,4 +23,8 @@ const cookie = {
 	secret: 'cookie' || 'cookie'
 };
 
-export { server, database, keys, redisOpts, cookie };
+const session = {
+	expire: Number(process.env.SESSION_EXPIRE) || 60 * 60 // set in seconds
+};
+
+export { server, database, keys, redisOpts, cookie, session };

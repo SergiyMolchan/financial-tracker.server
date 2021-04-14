@@ -2,6 +2,7 @@ import fastify, { DoneFuncWithErrOrRes, FastifyReply, FastifyRequest } from 'fas
 import fastifyCookie, { FastifyCookieOptions } from 'fastify-cookie';
 import Ajv from 'ajv';
 import { userRoutes } from './users';
+import { groupsRoutes } from './goups';
 import { FastifyRouteSchemaDef } from 'fastify/types/schema';
 import { userValidator } from './users';
 import { cookie } from './config';
@@ -26,14 +27,18 @@ app.setSchemaErrorFormatter(errors => {
 app.route(userRoutes.registrationRoute);
 app.route(userRoutes.authorizationRoute);
 app.route({
-	method: 'POST',
-	url: '/test',
+	...groupsRoutes.getGroupsRoute,
 	preHandler: async (request: FastifyRequest, reply: FastifyReply, done: DoneFuncWithErrOrRes): Promise<void> => {
 		await protectRoute(request, reply);
 		done();
-	},
-	handler: (request: FastifyRequest, reply: FastifyReply) => {
-		reply.code(200).send();
+	}
+});
+
+app.route({
+	...groupsRoutes.createGroupsRoute,
+	preHandler: async (request: FastifyRequest, reply: FastifyReply, done: DoneFuncWithErrOrRes): Promise<void> => {
+		await protectRoute(request, reply);
+		done();
 	}
 });
 

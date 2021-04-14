@@ -5,7 +5,7 @@ async function initTable() {
     try {
         // todo: set Foreign keys
         await client.query(
-            `CREATE TABLE IF NOT EXISTS users.user_groups (
+            `CREATE TABLE IF NOT EXISTS groups.groups_users (
 				user_id INT,
                 group_id INT
 			)`

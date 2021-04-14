@@ -1,6 +1,6 @@
 const initSchemas = require('./migrations/101-schemas');
 const initTableUsers = require('./migrations/201-users-users');
-const initTableUsersGroups = require('./migrations/202-users-user_groups');
+const initTableUsersGroups = require('./migrations/603-groups-groups_users');
 const initEnumsTypes = require('./migrations/301-enums-types');
 const initTableCategories = require('./migrations/401-categories-categories');
 const initTableCategoriesGroups = require('./migrations/402-categories-categories_groups');

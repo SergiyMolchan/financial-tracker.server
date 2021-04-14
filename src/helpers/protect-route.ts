@@ -13,7 +13,7 @@ async function protectRoute(request: FastifyRequest, reply: FastifyReply): Promi
 		if (!request.cookies.session) errorHandler(reply, unauthorizedMessage);
 		const userId: number = await getUserIdBySessionId(request.cookies.session);
 		// @ts-ignore
-		request.body = { ...request.body, userId };
+		request.body = { data: request.body, userId };
 		console.log(request.body);
 	} catch (error) {
 		errorHandler(reply, JSON.stringify(error));

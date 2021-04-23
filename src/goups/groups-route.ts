@@ -3,13 +3,13 @@ import { create, get } from './groups-controller';
 
 const getGroupsRoute: RouteOptions = {
 	method: 'GET',
-	url: '/groups/get',
+	url: '/groups',
 	handler: get
 };
 
 const createGroupsRoute: RouteOptions = {
 	method: 'POST',
-	url: '/groups/create',
+	url: '/groups',
 	schema: {
 		body: {
 			type: 'object',

@@ -12,10 +12,10 @@ function errorHandler(reply: FastifyReply, error: string): void {
 	reply
 		.code(status)
 		.header('Content-Type', 'application/json; charset=utf-8')
-		.send(JSON.stringify({
+		.send({
 			success: false,
 			message: message
-		}));
+		});
 }
 
 export { errorHandler };

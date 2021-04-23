@@ -8,7 +8,7 @@
         "build": "rimraf ./build && npm run test && tsc",
         "pord:start": "npm run build && node build/index.js",
         "eslint": "eslint ./src --fix",
-        "test": "jest"
+        "test": "jest --coverage"
     },
     "repository": {
         "type": "git",

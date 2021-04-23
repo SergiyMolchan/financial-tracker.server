@@ -3,13 +3,13 @@ import fastifyCookie, { FastifyCookieOptions } from 'fastify-cookie';
 import Ajv from 'ajv';
 import { userRoutes } from './users';
 import { groupsRoutes } from './goups';
+import { categoriesRoute } from './categories';
 import { FastifyRouteSchemaDef } from 'fastify/types/schema';
 import { userValidator } from './users';
 import { cookie } from './config';
 import { protectRoute } from './helpers/protect-route';
 
 const app = fastify({ logger: true });
-// app.register(fastifyAuth);
 app.register(fastifyCookie, { secret: cookie.secret } as FastifyCookieOptions);
 
 // register validators
@@ -29,7 +29,9 @@ app.route(userRoutes.authorizationRoute);
 
 const protectedRoutes: RouteOptions[] = [
 	groupsRoutes.getGroupsRoute,
-	groupsRoutes.createGroupsRoute
+	groupsRoutes.createGroupsRoute,
+	categoriesRoute.getCategoriesRoute,
+	categoriesRoute.createCategoriesRoute,
 ];
 
 for (const route of protectedRoutes) {

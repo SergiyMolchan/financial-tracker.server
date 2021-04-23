@@ -11,6 +11,25 @@ async function initTable() {
 				name VARCHAR(128) NOT NULL
 			)`
 		);
+
+		await client.query(
+			`CREATE FUNCTION fn_check_exists_category() RETURNS TRIGGER AS $$
+			BEGIN
+				IF EXISTS (
+					SELECT * FROM categories.categories WHERE type_id = NEW.type_id AND name = NEW.name
+				)
+				THEN RETURN NULL;
+				ELSE RETURN NEW;
+				END IF;
+			END;
+			$$ LANGUAGE plpgsql;`
+		);
+		await client.query(
+			`CREATE TRIGGER tg_groups_bind_to_user
+			BEFORE INSERT ON categories.categories
+			FOR EACH ROW EXECUTE PROCEDURE fn_check_exists_category();`
+		)
+
 	} catch (e) {
 		throw new Error(e);
 	}  finally {

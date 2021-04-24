@@ -37,9 +37,8 @@ const protectedRoutes: RouteOptions[] = [
 for (const route of protectedRoutes) {
 	app.route({
 		...route,
-		preHandler: async (request: FastifyRequest, reply: FastifyReply, done: DoneFuncWithErrOrRes): Promise<void> => {
+		preHandler: async (request: FastifyRequest, reply: FastifyReply): Promise<void> => {
 			await protectRoute(request, reply);
-			done();
 		}
 	});
 }

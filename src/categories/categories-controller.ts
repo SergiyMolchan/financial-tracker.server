@@ -10,11 +10,12 @@ async function create(req: FastifyRequest, reply: FastifyReply): Promise<void> {
 		reply
 			.status(201)
 			.header('Content-Type', 'application/json; charset=utf-8')
-			.send(JSON.stringify({
+			.send({
 				success: true,
 				message: 'Created.'
-			}));
+			});
 	} catch (error) {
+		console.error(error);
 		errorHandler(reply, error);
 	}
 }
@@ -27,10 +28,10 @@ async function get(req: FastifyRequest, reply: FastifyReply): Promise<void> {
 		reply
 			.status(200)
 			.header('Content-Type', 'application/json; charset=utf-8')
-			.send(JSON.stringify({
+			.send({
 				success: true,
 				categories
-			}));
+			});
 	} catch (error) {
 		errorHandler(reply, error);
 	}

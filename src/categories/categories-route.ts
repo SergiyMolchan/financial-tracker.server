@@ -13,7 +13,7 @@ const createCategoriesRoute: RouteOptions = {
 	schema: {
 		body: {
 			type: 'object',
-			required: ['name', 'typeId'],
+			required: ['name', 'typeId', 'groupId'],
 			properties: {
 				name: {
 					type: 'string',
@@ -23,6 +23,9 @@ const createCategoriesRoute: RouteOptions = {
 				typeId: {
 					type: 'number',
 				},
+				groupId: {
+					type: 'number'
+				}
 			},
 		},
 	},

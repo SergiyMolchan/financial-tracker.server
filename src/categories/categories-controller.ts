@@ -6,7 +6,7 @@ async function create(req: FastifyRequest, reply: FastifyReply): Promise<void> {
 	// @ts-ignore
 	const { data, userId } = req.body;
 	try {
-		await createCategory(userId, data.typeId, data.name);
+		await createCategory(userId, data.typeId, data.name, data.groupId);
 		reply
 			.status(201)
 			.header('Content-Type', 'application/json; charset=utf-8')
@@ -22,9 +22,10 @@ async function create(req: FastifyRequest, reply: FastifyReply): Promise<void> {
 
 async function get(req: FastifyRequest, reply: FastifyReply): Promise<void> {
 	// @ts-ignore
-	const { userId } = req.body;
+	const { userId, data } = req.body;
 	try {
-		const categories = await getCategories(userId);
+		const { groupId } = data;
+		const categories = await getCategories(userId, groupId);
 		reply
 			.status(200)
 			.header('Content-Type', 'application/json; charset=utf-8')

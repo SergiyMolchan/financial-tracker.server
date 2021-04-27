@@ -10,6 +10,42 @@ const getOperationsRoute: RouteOptions = {
 const createOperationsRoute: RouteOptions = {
 	method: 'POST',
 	url: '/operation',
+	schema: {
+		body: {
+			type: 'object',
+			required: ['name', 'typeId', 'groupId'],
+			properties: {
+				name: {
+					type: 'string',
+					maxLength: 128,
+					minLength: 5,
+				},
+				typeId: {
+					type: 'number',
+				},
+				groupId: {
+					type: 'number'
+				},
+				categoryId: {
+					type: 'number'
+				},
+				currencyId: {
+					type: 'number'
+				},
+				sum: {
+					type: 'number'
+				},
+				description: {
+					type: 'string',
+					maxLength: 256,
+					minLength: 1,
+				},
+				dateTime: {
+					type: 'number'
+				}
+			},
+		},
+	},
 	handler: create
 };
 

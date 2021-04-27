@@ -58,7 +58,6 @@ async function authorization(req: FastifyRequest, reply: FastifyReply): Promise<
 				message: 'Authorized.'
 			}));
 	} catch (error) {
-		console.error(error);
 		errorHandler(reply, error);
 	}
 }

@@ -31,7 +31,7 @@ async function get(req: FastifyRequest, reply: FastifyReply): Promise<void> {
 		const operations: any = await operation.get({ userId, ...data });
 
 		reply
-			.status(201)
+			.status(200)
 			.header('Content-Type', 'application/json; charset=utf-8')
 			.send({
 				success: true,
@@ -51,7 +51,7 @@ async function update(req: FastifyRequest, reply: FastifyReply): Promise<void> {
 		await operation.update({ userId, ...data });
 
 		reply
-			.status(201)
+			.status(200)
 			.header('Content-Type', 'application/json; charset=utf-8')
 			.send({
 				success: true,

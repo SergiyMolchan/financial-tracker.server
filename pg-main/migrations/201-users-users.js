@@ -10,6 +10,9 @@ async function initTableUsers() {
 				password TEXT
 			)`
 		);
+		await client.query(
+			`CREATE INDEX users_login_idx ON users.users (login)`
+		);
 	} catch (e) {
 		throw new Error(e);
 	}  finally {

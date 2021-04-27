@@ -13,6 +13,10 @@ async function initTable() {
 		);
 
 		await client.query(
+			`CREATE INDEX categories_id_pkey ON categories.categories (id)`
+		);
+
+		await client.query(
 			`CREATE FUNCTION fn_check_exists_category() RETURNS TRIGGER AS $$
 			BEGIN
 				IF EXISTS (

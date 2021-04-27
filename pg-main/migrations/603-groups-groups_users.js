@@ -10,6 +10,9 @@ async function initTable() {
                 group_id INT
 			)`
         );
+        await client.query(
+            `CREATE INDEX groups_groups_user_id_group_id_idx ON groups.groups_users (user_id, group_id)`
+        );
     } catch (e) {
         throw new Error(e);
     }  finally {

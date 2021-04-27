@@ -10,6 +10,9 @@ async function initTable() {
                 group_id INT
 			)`
         );
+        await client.query(
+            `CREATE INDEX categories_groups_group_id_idx ON categories.categories_groups (group_id)`
+        );
     } catch (e) {
         throw new Error(e);
     }  finally {

@@ -17,6 +17,9 @@ async function initTable() {
 			    date_time DATE DEFAULT now()
 			)`
         );
+        await client.query(
+            `CREATE INDEX financial_operations_group_id_idx ON financial_operations.operations (group_id)`
+        );
     } catch (e) {
         throw new Error(e);
     }  finally {

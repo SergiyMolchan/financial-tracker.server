@@ -12,7 +12,9 @@ async function initTable() {
 			    name VARCHAR(128)
 			)`
         );
-
+        await client.query(
+            `CREATE INDEX groups_id_pkey ON groups.groups (id)`
+        );
         await client.query(
             `CREATE FUNCTION fn_groups_bind_to_user() RETURNS TRIGGER AS $$
             BEGIN

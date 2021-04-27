@@ -10,6 +10,9 @@ async function initTable() {
 			    category_id INT
 			)`
         );
+        await client.query(
+            `CREATE INDEX users_categories_user_id_idx ON categories.users_categories (user_id)`
+        );
     } catch (e) {
         throw new Error(e);
     }  finally {

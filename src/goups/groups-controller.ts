@@ -1,6 +1,6 @@
 import { errorHandler } from '../helpers/error-handler';
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { createGroup, getGroups } from './groups-model';
+import { createGroup, getGroups, updateGroup, removeGroup } from './groups-model';
 
 async function create(req: FastifyRequest, reply: FastifyReply): Promise<void> {
 	// @ts-ignore
@@ -36,4 +36,38 @@ async function get(req: FastifyRequest, reply: FastifyReply): Promise<void> {
 	}
 }
 
-export { create, get };
+async function update(req: FastifyRequest, reply: FastifyReply): Promise<void> {
+	// @ts-ignore
+	const { data } = req.body;
+	const { id, name } = data;
+	try {
+		await updateGroup(id, name);
+		reply
+			.status(200)
+			.header('Content-Type', 'application/json; charset=utf-8')
+			.send(JSON.stringify({
+				success: true,
+			}));
+	} catch (error) {
+		errorHandler(reply, error);
+	}
+}
+
+async function remove(req: FastifyRequest, reply: FastifyReply): Promise<void> {
+	// @ts-ignore
+	const { data } = req.body;
+	const { id } = data;
+	try {
+		await removeGroup(id);
+		reply
+			.status(200)
+			.header('Content-Type', 'application/json; charset=utf-8')
+			.send(JSON.stringify({
+				success: true,
+			}));
+	} catch (error) {
+		errorHandler(reply, error);
+	}
+}
+
+export { create, get, update, remove };

@@ -7,7 +7,9 @@ async function initTable() {
         await client.query(
             `CREATE TABLE IF NOT EXISTS categories.categories_groups (
                 category_id INT,
-                group_id INT
+                group_id INT,
+                FOREIGN KEY (category_id) REFERENCES categories.categories (id),
+                FOREIGN KEY (group_id) REFERENCES groups.groups (id)
 			)`
         );
         await client.query(

@@ -31,6 +31,8 @@ app.route(userRoutes.authorizationRoute);
 const protectedRoutes: RouteOptions[] = [
 	groupsRoutes.getGroupsRoute,
 	groupsRoutes.createGroupsRoute,
+	groupsRoutes.updateGroupsRoute,
+	groupsRoutes.deleteGroupsRoute,
 	categoriesRoute.getCategoriesRoute,
 	categoriesRoute.createCategoriesRoute,
 	financialOperationsRoutes.getOperationsRoute,

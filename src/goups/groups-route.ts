@@ -1,5 +1,5 @@
 import { RouteOptions } from 'fastify';
-import { create, get } from './groups-controller';
+import { create, get, update, remove } from './groups-controller';
 
 const getGroupsRoute: RouteOptions = {
 	method: 'GET',
@@ -26,4 +26,43 @@ const createGroupsRoute: RouteOptions = {
 	handler: create
 };
 
-export { getGroupsRoute, createGroupsRoute };
+const updateGroupsRoute: RouteOptions = {
+	method: 'PUT',
+	url: '/groups',
+	schema: {
+		body: {
+			type: 'object',
+			required: ['name', 'id'],
+			properties: {
+				name: {
+					type: 'string',
+					maxLength: 128,
+					minLength: 5,
+				},
+				id: {
+					type: 'number'
+				}
+			},
+		},
+	},
+	handler: update
+};
+
+const deleteGroupsRoute: RouteOptions = {
+	method: 'DELETE',
+	url: '/groups',
+	schema: {
+		body: {
+			type: 'object',
+			required: ['id'],
+			properties: {
+				id: {
+					type: 'number'
+				}
+			},
+		},
+	},
+	handler: remove
+};
+
+export { getGroupsRoute, createGroupsRoute, updateGroupsRoute, deleteGroupsRoute };

@@ -11,12 +11,13 @@ async function getGroups(user_id: number): Promise<any> {
 	return rows;
 }
 
-// async function updateGroup(id: number): Promise<QueryArrayResult<any[]>> {
-// 	// return await query('INSERT INTO groups.groups (name) VALUES ($1::varchar(128))', [name]);
-// }
-//
-// async function removeGroup(id: number): Promise<QueryArrayResult<any[]>> {
-// 	// return await query('INSERT INTO groups.groups (name) VALUES ($1::varchar(128))', [name]);
-// }
+async function updateGroup(id: number, name: string): Promise<QueryArrayResult<any[]>> {
+	return await query('UPDATE groups.groups SET name = $1 WHERE id = $2', [name, id]);
+}
 
-export { createGroup, getGroups };
+async function removeGroup(id: number): Promise<QueryArrayResult<any[]>> {
+	await query('DELETE FROM groups.groups_users WHERE group_id = $1', [id]);
+	return await query('DELETE FROM groups.groups WHERE id = $1', [id]);
+}
+
+export { createGroup, getGroups, updateGroup, removeGroup };

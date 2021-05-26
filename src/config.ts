@@ -1,5 +1,5 @@
 const server = {
-	port: process.env.PORT || 80,
+	port: process.env.PORT || 8080,
 };
 
 const database = {

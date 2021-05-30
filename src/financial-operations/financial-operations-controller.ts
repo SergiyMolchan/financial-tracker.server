@@ -24,11 +24,13 @@ async function create(req: FastifyRequest, reply: FastifyReply): Promise<void> {
 
 async function get(req: FastifyRequest, reply: FastifyReply): Promise<void> {
 	// @ts-ignore
-	const { data, userId } = req.body;
+	const { userId } = req.body;
 	try {
+		// @ts-ignore
+		const { groupId } = req.query;
 		// todo: check field exist
 		// todo: fix any
-		const operations: any = await operation.get({ userId, ...data });
+		const operations: any = await operation.get({ userId, groupId });
 
 		reply
 			.status(200)
@@ -55,7 +57,7 @@ async function update(req: FastifyRequest, reply: FastifyReply): Promise<void> {
 			.header('Content-Type', 'application/json; charset=utf-8')
 			.send({
 				success: true,
-				message: 'Created.'
+				message: 'Updated.'
 			});
 	} catch (error) {
 		console.error(error);
@@ -63,4 +65,24 @@ async function update(req: FastifyRequest, reply: FastifyReply): Promise<void> {
 	}
 }
 
-export { create, get, update };
+async function remove(req: FastifyRequest, reply: FastifyReply): Promise<void> {
+	// @ts-ignore
+	const { data, userId } = req.body;
+	try {
+		// todo: check field exist
+		await operation.remove({ id: data.id });
+
+		reply
+			.status(200)
+			.header('Content-Type', 'application/json; charset=utf-8')
+			.send({
+				success: true,
+				message: 'Updated.'
+			});
+	} catch (error) {
+		console.error(error);
+		errorHandler(reply, error);
+	}
+}
+
+export { create, get, update, remove };

@@ -39,6 +39,7 @@ const protectedRoutes: RouteOptions[] = [
 	financialOperationsRoutes.getOperationsRoute,
 	financialOperationsRoutes.createOperationsRoute,
 	financialOperationsRoutes.updateOperationsRoute,
+	financialOperationsRoutes.removeOperationsRoute
 ];
 
 for (const route of protectedRoutes) {

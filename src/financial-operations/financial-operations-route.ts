@@ -1,5 +1,5 @@
 import { RouteOptions } from 'fastify';
-import { create, get, update } from './financial-operations-controller';
+import { create, get, update, remove } from './financial-operations-controller';
 
 const getOperationsRoute: RouteOptions = {
 	method: 'GET',
@@ -55,4 +55,10 @@ const updateOperationsRoute: RouteOptions = {
 	handler: update
 };
 
-export { getOperationsRoute, createOperationsRoute, updateOperationsRoute };
+const removeOperationsRoute: RouteOptions = {
+	method: 'DELETE',
+	url: '/operation',
+	handler: remove
+};
+
+export { getOperationsRoute, createOperationsRoute, updateOperationsRoute, removeOperationsRoute };

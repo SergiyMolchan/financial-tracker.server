@@ -14,7 +14,12 @@ async function initTable() {
 			    currency_id INT,
 			    sum INT,
 			    description VARCHAR(256),
-			    date_time DATE DEFAULT now()
+			    date_time DATE DEFAULT now(),
+                FOREIGN KEY (category_id) REFERENCES categories.categories (id),
+                FOREIGN KEY (group_id) REFERENCES groups.groups (id),
+                FOREIGN KEY (type_id) REFERENCES enums.types (id),
+                FOREIGN KEY (user_id) REFERENCES users.users (id),
+                FOREIGN KEY (currency_id) REFERENCES financial_operations.currencies (id)
 			)`
         );
         await client.query(

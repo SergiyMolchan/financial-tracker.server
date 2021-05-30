@@ -14,17 +14,22 @@ const initGroupsPermissions = require('./migrations/602-groups-permissions');
 
 async function init() {
 	try {
-		await initSchemas();
-		await initEnumsTypes();
-		await initTableUsers();
-		await initTableCategories();
-		await initGroups();
-		await initTableUsersGroups();
-		await initTableCategoriesGroups();
-		await initCategoriesUserCat();
-		await initTableFinancialOperations();
-		await initTableFinancialOperationsCurrencies();
-		await initGroupsPermissions();
+		await Promise.all([
+			await initSchemas(),
+			await initEnumsTypes(),
+			await initTableUsers(),
+			await initTableCategories(),
+			await initGroups(),
+			await initTableUsersGroups(),
+			await initTableCategoriesGroups(),
+			await initCategoriesUserCat(),
+			await initTableFinancialOperationsCurrencies(),
+			await initTableFinancialOperations(),
+			await initGroupsPermissions()
+		])
+
+		await require('./seeds/301-enums-types')();
+		await require('./seeds/502-currencies')();
 	} catch (e) {
 		throw new Error(e);
 	}

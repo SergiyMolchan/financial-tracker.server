@@ -1,5 +1,5 @@
 import { RouteOptions } from 'fastify';
-import { create, get } from './categories-controller';
+import { create, get, remove } from './categories-controller';
 
 const getCategoriesRoute: RouteOptions = {
 	method: 'GET',
@@ -32,4 +32,24 @@ const createCategoriesRoute: RouteOptions = {
 	handler: create
 };
 
-export { createCategoriesRoute, getCategoriesRoute };
+const removeCategoriesRoute: RouteOptions = {
+	method: 'DELETE',
+	url: '/categories',
+	schema: {
+		body: {
+			type: 'object',
+			required: ['categoryId', 'groupId'],
+			properties: {
+				categoryId: {
+					type: 'number'
+				},
+				groupId: {
+					type: 'number'
+				}
+			},
+		},
+	},
+	handler: remove
+};
+
+export { createCategoriesRoute, getCategoriesRoute, removeCategoriesRoute };

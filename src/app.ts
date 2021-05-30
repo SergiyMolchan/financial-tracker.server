@@ -35,6 +35,7 @@ const protectedRoutes: RouteOptions[] = [
 	groupsRoutes.deleteGroupsRoute,
 	categoriesRoute.getCategoriesRoute,
 	categoriesRoute.createCategoriesRoute,
+	categoriesRoute.removeCategoriesRoute,
 	financialOperationsRoutes.getOperationsRoute,
 	financialOperationsRoutes.createOperationsRoute,
 	financialOperationsRoutes.updateOperationsRoute,

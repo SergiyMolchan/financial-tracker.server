@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
 import { errorHandler } from '../helpers/error-handler';
-import { createCategory, getCategories } from './categories-model';
+import { createCategory, getCategories, removeCategories } from './categories-model';
 
 async function create(req: FastifyRequest, reply: FastifyReply): Promise<void> {
 	// @ts-ignore
@@ -22,9 +22,10 @@ async function create(req: FastifyRequest, reply: FastifyReply): Promise<void> {
 
 async function get(req: FastifyRequest, reply: FastifyReply): Promise<void> {
 	// @ts-ignore
-	const { userId, data } = req.body;
+	const { userId } = req.body;
 	try {
-		const { groupId } = data;
+		// @ts-ignore
+		const { groupId } = req.query;
 		const categories = await getCategories(userId, groupId);
 		reply
 			.status(200)
@@ -38,5 +39,22 @@ async function get(req: FastifyRequest, reply: FastifyReply): Promise<void> {
 	}
 }
 
+async function remove(req: FastifyRequest, reply: FastifyReply): Promise<void> {
+	// @ts-ignore
+	const { data } = req.body;
+	try {
+		const { categoryId, groupId } = data;
+		const categories = await removeCategories(categoryId, groupId);
+		reply
+			.status(200)
+			.header('Content-Type', 'application/json; charset=utf-8')
+			.send({
+				success: true,
+				categories
+			});
+	} catch (error) {
+		errorHandler(reply, error);
+	}
+}
 
-export { create, get };
+export { create, get, remove };

@@ -3,6 +3,7 @@ const initTableUsers = require('./migrations/201-users-users');
 const initTableUsersGroups = require('./migrations/603-groups-groups_users');
 const initEnumsTypes = require('./migrations/301-enums-types');
 const initTableCategories = require('./migrations/401-categories-categories');
+const initCategoriesUserCat = require('./migrations/403-categories-users_categories');
 const initTableCategoriesGroups = require('./migrations/402-categories-categories_groups');
 const initTableFinancialOperations = require('./migrations/501-financial_operations-operations')
 const initTableFinancialOperationsCurrencies = require('./migrations/502-financial_operations-currencies')
@@ -20,6 +21,7 @@ async function init() {
 		await initGroups();
 		await initTableUsersGroups();
 		await initTableCategoriesGroups();
+		await initCategoriesUserCat();
 		await initTableFinancialOperations();
 		await initTableFinancialOperationsCurrencies();
 		await initGroupsPermissions();

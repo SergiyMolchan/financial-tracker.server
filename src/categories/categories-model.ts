@@ -23,4 +23,8 @@ async function getCategories(user_id: number, groupId: number): Promise<any> {
 	return rows;
 }
 
-export { createCategory, getCategories };
+async function removeCategories(categoryId: number, groupId: number) {
+	await query('DELETE FROM categories.categories_groups WHERE category_id = $1 AND group_id = $2', [categoryId, groupId]);
+}
+
+export { createCategory, getCategories, removeCategories };

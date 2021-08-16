@@ -1,11 +1,12 @@
 import app from './app';
 import { server as serverConf } from './config';
 
-const port = serverConf.port;
+const { host, port } = serverConf;
 
 (async (): Promise<void> => {
 	try {
-		await app.listen(port);
+		console.log(`Server running on ${host}:${port}`);
+		await app.listen(port, host);
 	} catch (error) {
 		console.error(error);
 		process.exit(1);

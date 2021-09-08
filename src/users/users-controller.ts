@@ -12,7 +12,7 @@ async function registration(req: FastifyRequest, reply: FastifyReply): Promise<v
 	try {
 		const candidates: userInterface[] = await getUserByLogin(login);
 		if (candidates.length) {
-			throw JSON.stringify({
+			throw JSON.stringify({ // todo: fix this is boulshit
 				status: 409,
 				message: 'A user with such a login already exists.'
 			});

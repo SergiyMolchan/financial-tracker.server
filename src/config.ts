@@ -28,4 +28,6 @@ const session = {
 	expire: Number(process.env.SESSION_EXPIRE) || 60 * 60 // set in seconds
 };
 
-export { server, database, keys, redisOpts, cookie, session };
+const mode = process.env.NODE_ENV || 'development' // development || production
+
+export { server, database, keys, redisOpts, cookie, session, mode };

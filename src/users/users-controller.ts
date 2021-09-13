@@ -6,7 +6,7 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 import { createSession } from '../helpers/session';
 import { session } from '../config';
 
-async function registration(req: FastifyRequest, reply: FastifyReply): Promise<void> {
+async function registration(req: FastifyRequest, reply: FastifyReply): Promise<void> { // todo: move req, reply from controller
 	// @ts-ignore
 	const { login, password }: newUserInterface = req.body;
 	try {

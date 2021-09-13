@@ -7,10 +7,25 @@ import { categoriesRoute } from './categories';
 import { financialOperationsRoutes } from './financial-operations';
 import { FastifyRouteSchemaDef } from 'fastify/types/schema';
 import { userValidator } from './users';
-import { cookie } from './config';
+import { cookie, mode } from './config';
 import { protectRoute } from './helpers/protect-route';
+import fastifyCors from 'fastify-cors';
 
-const app = fastify({ logger: true });
+const app = fastify({
+	logger: true,
+	ajv: {
+		customOptions: {
+			removeAdditional: true,
+			useDefaults: true,
+			coerceTypes: true,
+			allErrors: false,
+			nullable: true,
+		},
+	},
+});
+
+if (mode === 'development') app.register(fastifyCors);
+
 app.register(fastifyCookie, { secret: cookie.secret } as FastifyCookieOptions);
 
 // define validators
@@ -18,12 +33,13 @@ const ajv = new Ajv();
 userValidator.confirmPassword(ajv);
 
 app.setValidatorCompiler(({ schema }: FastifyRouteSchemaDef): any => ajv.compile(schema));
-app.setSchemaErrorFormatter(errors => {
-	return new Error(JSON.stringify({ errors: errors.map(error => error.message) }));
-});
+// app.setSchemaErrorFormatter(errors => {
+// 	console.log(errors)
+//
+// 	throw { errors: errors };
+// }); //todo: handle errors
 
 // define routes
-
 // todo: set preHandler for protected routes
 app.route(userRoutes.registrationRoute);
 app.route(userRoutes.authorizationRoute);

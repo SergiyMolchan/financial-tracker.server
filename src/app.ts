@@ -33,11 +33,18 @@ const ajv = new Ajv();
 userValidator.confirmPassword(ajv);
 
 app.setValidatorCompiler(({ schema }: FastifyRouteSchemaDef): any => ajv.compile(schema));
-// app.setSchemaErrorFormatter(errors => {
-// 	console.log(errors)
-//
-// 	throw { errors: errors };
-// }); //todo: handle errors
+
+app.setErrorHandler(function (error, request, reply) {
+	if (error.validation) {
+		const errors = error.validation;
+		// @ts-ignore
+		const errorMessage: string = errors.reduce((message: string, error: string): string => message += `${error.message} `, '');
+		reply.status(400).send({
+			success: false,
+			message: errorMessage
+		});
+	}
+});
 
 // define routes
 // todo: set preHandler for protected routes

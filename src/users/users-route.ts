@@ -1,5 +1,6 @@
 import { registration, authorization } from './users-controller';
-import { RouteOptions } from 'fastify';
+import { FastifyReply, FastifyRequest, RouteOptions } from 'fastify';
+import { newUserInterface, userInterface } from './users-interface';
 
 // const response = {
 // 	type: 'object',
@@ -46,7 +47,14 @@ const registrationRoute: RouteOptions = {
 		// 	409: response
 		// }
 	},
-	handler: registration
+	handler: async (req: FastifyRequest, reply: FastifyReply) => {
+		const newUser: newUserInterface = req.body as newUserInterface;
+		const { status, headers, body } = await registration(newUser);
+		reply
+			.code(status)
+			.headers(headers)
+			.send(body);
+	}
 };
 
 const authorizationRoute: RouteOptions = {
@@ -75,7 +83,16 @@ const authorizationRoute: RouteOptions = {
 		// 	409: response
 		// }
 	},
-	handler: authorization
+	// handler: authorization
+	handler: async (req: FastifyRequest, reply: FastifyReply) => {
+		const user: userInterface = req.body as userInterface;
+		const { status, headers, body, cookie } = await authorization(user);
+		if (cookie?.length) reply.setCookie(...cookie);
+		reply
+			.code(status)
+			.headers(headers)
+			.send(body);
+	}
 };
 
 export { registrationRoute, authorizationRoute };

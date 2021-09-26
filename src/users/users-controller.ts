@@ -1,64 +1,89 @@
 import { newUserInterface, userInterface } from './users-interface';
-import { encryptPassword, checkPassword } from './helpers/encrypt-password';
-import { errorHandler } from '../helpers/error-handler';
+import { checkPassword, encryptPassword } from './helpers/encrypt-password';
 import { createUser, getUserByLogin } from './users-model';
-import { FastifyReply, FastifyRequest } from 'fastify';
 import { createSession } from '../helpers/session';
 import { session } from '../config';
+import { ControllerResponse } from '../commonInterfaces/controllerResponse';
 
-async function registration(req: FastifyRequest, reply: FastifyReply): Promise<void> { // todo: move req, reply from controller
-	// @ts-ignore
-	const { login, password }: newUserInterface = req.body;
+const headers = {
+	'Content-Type': 'application/json; charset=utf-8'
+};
+
+async function registration({ login, password }: newUserInterface): Promise<ControllerResponse> { // todo: move req, reply from controller
 	try {
 		const candidates: userInterface[] = await getUserByLogin(login);
 		if (candidates.length) {
-			throw JSON.stringify({ // todo: fix this is boulshit
+			return {
 				status: 409,
-				message: 'A user with such a login already exists.'
-			});
+				headers,
+				body: {
+					success: false,
+					message: 'A user with such a login already exists.'
+				}
+			};
 		} else {
 			const encryptedPassword: string = await encryptPassword(password);
 			await createUser(login, encryptedPassword);
-			reply
-				.code(201)
-				.header('Content-Type', 'application/json; charset=utf-8')
-				.send(JSON.stringify({
+			return {
+				status: 201,
+				headers,
+				body: {
 					success: true,
 					message: 'New user registered.'
-				}));
+				}
+			};
 		}
 	} catch (error) {
-		errorHandler(reply, error);
+		console.error(error);
+		return {
+			status: 500,
+			headers,
+			body: {
+				success: false,
+				message: 'Server error. Something Went Wrong Please Try Later :('
+			}
+		};
 	}
 }
 
 // todo: create multiple strategies authorization
-async function authorization(req: FastifyRequest, reply: FastifyReply): Promise<void> {
-	const authorizationErrorMessage: string = JSON.stringify({
+async function authorization({ login, password }: userInterface): Promise<ControllerResponse> {
+	const authorizationErrorMessage: ControllerResponse = {
 		status: 404,
-		message: 'Authorization failed.'
-	});
-
-	// @ts-ignore
-	const { login, password } = req.body;
+		headers,
+		body: {
+			success: false,
+			message: 'Authorization failed.'
+		}
+	};
 	try {
 		const candidates: userInterface[] = await getUserByLogin(login);
-		if (!candidates.length) throw authorizationErrorMessage;
+		if (!candidates.length) return authorizationErrorMessage;
 		const candidate: userInterface | undefined = candidates.find(user => user.login === login);
-		if (!candidate) throw authorizationErrorMessage;
-		if (!await checkPassword(password, candidate.password)) throw authorizationErrorMessage;
+		if (!candidate) return authorizationErrorMessage;
+		if (!await checkPassword(password, candidate.password)) return authorizationErrorMessage;
 
 		const sessionId: string = await createSession(candidate.id, session.expire);
-		reply
-			.setCookie('session', sessionId, { path: '/' })
-			.code(200)
-			.header('Content-Type', 'application/json; charset=utf-8')
-			.send(JSON.stringify({
+
+		return {
+			status: 200,
+			headers,
+			cookie: ['session', sessionId, { path: '/' }],
+			body: {
 				success: true,
 				message: 'Authorized.'
-			}));
+			}
+		};
 	} catch (error) {
-		errorHandler(reply, error);
+		console.error(error);
+		return {
+			status: 500,
+			headers,
+			body: {
+				success: false,
+				message: 'Server error. Something Went Wrong Please Try Later :(',
+			}
+		};
 	}
 }
 

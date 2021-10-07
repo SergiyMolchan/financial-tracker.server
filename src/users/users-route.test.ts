@@ -12,9 +12,8 @@ describe('users route', () => {
 			}
 		});
 		expect(JSON.parse(response.body)).toEqual({
-			statusCode: 400,
-			error: 'Bad Request',
-			message: '{"errors":["Passwords must match."]}' //todo: fix this
+			success: false,
+			message: 'Passwords must match. '
 		});
 	});
 });
